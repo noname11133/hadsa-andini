@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Confess Love 💗</title>
+
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffb3d9, #ffe6f2);
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 25px;
+      max-width: 480px;
+      margin: 40px auto;
+      box-shadow: 0 0 25px rgba(255, 0, 130, 0.3);
+      animation: fade 0.7s ease;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      background: #ff4da6;
+      color: white;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.07);
+      background: #ff1a8c;
+    }
+
+    /* ANIMASI KARAKTER */
+    .character {
+      width: 120px;
+      margin: auto;
+      animation: float 2s infinite alternate;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0px); }
+      to { transform: translateY(-12px); }
+    }
+
+    /* HATI BERJATUH */
+    .heartRain {
+      position: fixed;
+      top: -10px;
+      font-size: 20px;
+      color: #ff147e;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-20px); }
+      to { transform: translateY(100vh); }
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #heartMini {
+      position: absolute;
+      font-size: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgm" autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2023/01/19/audio_25678c113a.mp3?filename=romantic-piano-135766.mp3">
+</audio>
+
+<script>
+  // Play music after user interaction
+  document.addEventListener("click", () => {
+    document.getElementById("bgm").play();
+  });
+</script>
+
+<script>
+  // HATI TURUN KE BAWAH
+  function rainHearts() {
+    setInterval(() => {
+      const h = document.createElement("div");
+      h.classList.add("heartRain");
+      h.innerHTML = "💗";
+      h.style.left = Math.random() * window.innerWidth + "px";
+      h.style.animationDuration = (Math.random() * 3 + 2) + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 5000);
+    }, 300);
+  }
+  rainHearts();
+</script>
+
+<!-- PAGE 1 -->
+<div class="card" id="page1">
+  <img src="https://i.imgur.com/kMchTzF.png" class="character">
+  <h2>💗 Mini Game Confession 💗</h2>
+  <p>Aku mau confess ke dia... tapi harus lolos beberapa level dulu 😳</p>
+  <button onclick="showPage(2)">Mulai Game</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card" id="page2" style="display:none;">
+  <h2>Level 1: Keberanian</h2>
+  <p>Seberapa berani kamu buat confess hari ini? 😳</p>
+  <input type="range" id="brave" min="0" max="100" value="30">
+  <br><br>
+  <button onclick="nextBrave()">Lanjut ➜</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="card" id="page3" style="display:none;">
+  <h2>Level 2: Seberapa Suka?</h2>
+  <select id="loveLevel">
+    <option value="Sedikit">Sedikit</option>
+    <option value="Lumayan">Lumayan</option>
+    <option value="Banget">Banget 😳💗</option>
+    <option value="Sampai kebawa mimpi">Sampai kebawa mimpi 😭💗</option>
+  </select>
+  <br><br>
+  <button onclick="showPage(4)">Lanjut ➜</button>
+</div>
+
+<!-- PAGE 4: TANGKAP HATI -->
+<div class="card" id="page4" style="display:none; position:relative;">
+  <h2>Level 3: Tangkap Hati 💗</h2>
+  <p>Klik hati yang bergerak 1 kali untuk menang!</p>
+  <div id="heartMini" onclick="finishHeart()">💗</div>
+</div>
+
+<!-- PAGE 5: PILIH YES / NO -->
+<div class="card" id="page5" style="display:none;">
+  <h2>Sekarang Saatnya!</h2>
+  <p>Kamu mau confess ke dia sekarang?</p>
+
+  <button onclick="showPage(6)">YES 😳💗</button>
+  <br><br>
+
+  <button onclick="showPage(7)">NO 😭</button>
+</div>
+
+<!-- PAGE 6: CONFESSION -->
+<div class="card" id="page6" style="display:none;">
+  <h1>💖 Aku Mau Bilang Sesuatu... 💖</h1>
+  <p><b>“Aku suka sama kamu… beneran suka.”</b></p>
+  <p>Aku harap kamu nerima perasaan aku 💗</p>
+</div>
+
+<!-- PAGE 7: IF NO -->
+<div class="card" id="page7" style="display:none;">
+  <h2>😭 Kamu Pilih NO?</h2>
+  <p>Gapapa...  
+  <br>Perasaan itu gak bisa dipaksa…</p>
+  <h3>Tapi aku tetap suka kamu 💗</h3>
+</div>
+
+<script>
+  function showPage(num) {
+    document.querySelectorAll(".card").forEach(c => c.style.display = "none");
+    document.getElementById("page" + num).style.display = "block";
+  }
+
+  function nextBrave() {
+    const val = document.getElementById("brave").value;
+    if (val < 40) {
+      alert("Keberanian kamu masih kurang 😭 tambahin dulu!");
+      return;
+    }
+    showPage(3);
+  }
+
+  // HEART GAME
+  function finishHeart() {
+    showPage(5);
+  }
+
+  function moveHeart() {
+    setInterval(() => {
+      const h = document.getElementById("heartMini");
+      h.style.top = (Math.random() * 250) + "px";
+      h.style.left = (Math.random() * 250) + "px";
+    }, 700);
+  }
+  moveHeart();
+</script>
+
+</body>
+</html>
